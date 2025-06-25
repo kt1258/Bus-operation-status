@@ -5,63 +5,94 @@
   <title>バス運行状況</title>
   <style>
     body {
-      background-color: #222;
+      margin: 0;
+      background-color: #1c1c1c;
       color: white;
-      font-family: "Segoe UI", sans-serif;
-      margin: 20px;
+      font-family: "Yu Gothic", "Segoe UI", sans-serif;
     }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
     .header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      font-size: 1.5em;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
     .bus-icon {
-      font-size: 2em;
-      margin-right: 10px;
+      font-size: 32px;
     }
-    .time {
-      float: right;
-      font-size: 1.5em;
+
+    .divider {
+      border: none;
+      border-top: 3px solid white;
+      margin: 10px 0 20px 0;
     }
-    hr {
-      border-color: white;
-    }
+
     .route {
-      font-size: 1.8em;
-      margin: 10px 0;
+      font-size: 28px;
+      margin-bottom: 20px;
     }
-    .row {
+
+    .schedule-row {
       display: flex;
       justify-content: space-between;
-      font-size: 1.5em;
-      padding: 5px 0;
+      align-items: center;
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .fixed-time {
+      margin-left: 10px;
+    }
+
+    .predicted-time {
+      margin-right: 10px;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="header">
+      <div class="header-left">
+        <div class="bus-icon">🚌</div>
+        <div>バス運行状況</div>
+      </div>
+      <div>16:40</div>
+    </div>
 
-  <div class="header">
-    <div class="bus-icon">🚌</div>
-    <div>バス運行状況</div>
-    <div class="time">16:40</div>
+    <hr class="divider">
+
+    <div class="route">向原 → 南柏駅東口</div>
+
+    <div class="schedule-row">
+      <div class="fixed-time">定刻 16:43</div>
+      <div class="predicted-time">予測 16:46 発</div>
+    </div>
+
+    <div class="schedule-row">
+      <div class="fixed-time">定刻 16:51</div>
+      <div class="predicted-time">予測 16:55 発</div>
+    </div>
+
+    <div class="schedule-row">
+      <div class="fixed-time">定刻 16:57</div>
+      <div class="predicted-time">予測 16:59 発</div>
+    </div>
   </div>
-
-  <hr>
-
-  <div class="route">向原 → 南柏駅東口</div>
-
-  <div class="row">
-    <div>定刻 16:43</div>
-    <div>予測 16:46 発</div>
-  </div>
-  <div class="row">
-    <div>定刻 16:51</div>
-    <div>予測 16:55 発</div>
-  </div>
-  <div class="row">
-    <div>定刻 16:57</div>
-    <div>予測 16:59 発</div>
-  </div>
-
 </body>
 </html>
