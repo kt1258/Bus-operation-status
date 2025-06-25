@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>バス運行状況</title>
+  <style>
+    body {
+      background-color: #222;
+      color: white;
+      font-family: "Segoe UI", sans-serif;
+      margin: 20px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      font-size: 1.5em;
+    }
+    .bus-icon {
+      font-size: 2em;
+      margin-right: 10px;
+    }
+    .time {
+      float: right;
+      font-size: 1.5em;
+    }
+    hr {
+      border-color: white;
+    }
+    .route {
+      font-size: 1.8em;
+      margin: 10px 0;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.5em;
+      padding: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="bus-icon">🚌</div>
+    <div>バス運行状況</div>
+    <div class="time">16:40</div>
+  </div>
+
+  <hr>
+
+  <div class="route">向原 → 南柏駅東口</div>
+
+  <div class="row">
+    <div>定刻 16:43</div>
+    <div>予測 16:46 発</div>
+  </div>
+  <div class="row">
+    <div>定刻 16:51</div>
+    <div>予測 16:55 発</div>
+  </div>
+  <div class="row">
+    <div>定刻 16:57</div>
+    <div>予測 16:59 発</div>
+  </div>
+
+</body>
+</html>
