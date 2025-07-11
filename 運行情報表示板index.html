@@ -8,14 +8,10 @@
       margin: 0;
       font-family: "Noto Sans JP", sans-serif;
       overflow: hidden;
-      -webkit-user-select: none;
-      user-select: none;
     }
-    
-    html[lang="ko"] body { font-family: "Noto Sans KR", sans-serif; }
-    html[lang="zh-CN"] body { font-family: "Noto Sans SC", sans-serif; }
-    html[lang="zh-TW"] body { font-family: "Noto Sans TC", sans-serif; }
-
+    body:lang(ko) { font-family: "Noto Sans KR", sans-serif; }
+    body:lang(zh-CN) { font-family: "Noto Sans SC", sans-serif; }
+    body:lang(zh-TW) { font-family: "Noto Sans TC", sans-serif; }
     #welcome-screen {
       display: flex;
       flex-direction: column;
@@ -53,13 +49,11 @@
     .welcome-lang-buttons .full-width {
       grid-column: 1 / -1;
     }
-
     .main {
       display: flex;
       width: 100%;
       height: 100vh;
     }
-
     .bus-area {
       background-color: #222;
       color: white;
@@ -76,7 +70,6 @@
       filter: brightness(0.7);
       box-shadow: -5px 0 25px rgba(0,0,0,0.5);
     }
-
     .settings-area {
       background-color: #ddd;
       color: black;
@@ -85,7 +78,11 @@
       display: none;
       flex-direction: column;
     }
-
+    .settings-area > div {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -101,23 +98,80 @@
     .title { font-size: 4vw; margin-left: 2vw; }
     .gear { font-size: 3.5vw; cursor: pointer; }
     #current-time { font-size: 3.5vw; }
-    .route { font-size: 4vw; margin: 2vh 0; border-top: 2px solid white; padding-top: 2vh; }
-    .time-table { font-size: 3.5vw; line-height: 1.7; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-around; }
-    .time-row { display: flex; justify-content: space-between; max-width: 100%; align-items: baseline; white-space: nowrap; }
-    .time-large { font-size: 5.5vw; font-weight: bold; }
-
-    .hidden { display: none; }
-    .header-row { display: flex; align-items: center; font-size: 24px; cursor: pointer; }
+    .route {
+      font-size: 5vw;
+      margin: 2vh 0;
+      border-top: 2px solid white;
+      padding-top: 2vh;
+      color: #FFA600;
+    }
+    .time-table {
+      font-size: 4vw;
+      line-height: 1.7;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      white-space: nowrap;
+      padding: 0 2.5vw;
+      box-sizing: border-box;
+    }
+    .time-large {
+      font-size: 6.5vw;
+      font-weight: bold;
+    }
+    .bus-area.settings-active .route { font-size: 4vw; }
+    .bus-area.settings-active .time-table { font-size: 3.5vw; }
+    .bus-area.settings-active .time-large { font-size: 5.5vw; }
+    .predicted-time { color: #FFD000; }
+    .hidden { display: none !important; }
+    .header-row {
+      display: flex;
+      align-items: center;
+      font-size: 24px;
+      cursor: pointer;
+    }
     .header-row .back-arrow { font-size: 30px; font-weight: bold; }
     .header-row span { margin-left: 10px; }
     .section { margin-top: 30px; }
-
-    .setting-buttons, .language-buttons {
+    .section.scrollable {
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
+        padding-right: 10px;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    .section.scrollable a {
+        color: #0000EE;
+    }
+    .setting-buttons {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
     }
-    .setting-buttons button, .language-buttons button {
+    .setting-buttons button {
+      font-size: 20px;
+      padding: 15px 10px;
+      background-color: #444;
+      color: white;
+      border: none;
+      cursor: pointer;
+      min-width: 0;
+      border-radius: 5px;
+    }
+    .language-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .language-buttons button {
       font-size: 18px;
       padding: 15px;
       background-color: #555;
@@ -127,20 +181,36 @@
       text-align: center;
       border-radius: 5px;
     }
-    .setting-buttons button {
-      font-size: 20px;
-      padding: 15px 10px;
-      background-color: #444;
+    .route-selection-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 10px;
     }
-    .language-buttons button.active {
-      background-color: #4CAF50;
+    .route-selection-buttons button {
+        font-size: 18px;
+        padding: 15px;
+        background-color: #555;
+        color: white;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 5px;
     }
-
-    .color-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 18px; }
-    .color-row input[type="color"] { width: 50px; height: 30px; border: none; cursor: pointer; }
-    .route-selection-buttons { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
-    .route-selection-buttons button { font-size: 18px; padding: 15px; background-color: #555; color: white; border: none; cursor: pointer; text-align: center; border-radius: 5px; }
+    .language-buttons button.active,
     .route-selection-buttons button.active { background-color: #4CAF50; }
+    .color-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    .color-row input[type="color"] {
+      width: 50px;
+      height: 30px;
+      border: none;
+      cursor: pointer;
+    }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -164,54 +234,48 @@
       <div class="top-bar">
         <div class="left">
           <span class="bus-icon">🚍</span>
-          <span class="title" data-translate="title">バス運行状況</span>
+          <span class="title" id="title-text"></span>
         </div>
         <div>
           <span id="current-time" style="margin-right: 10px;">16:40</span>
           <span class="gear" onclick="openSettings()">⚙️</span>
         </div>
       </div>
-      <div class="route" id="route-name">向原 ➝ 南柏駅東口</div>
+      <div class="route" id="route-name"></div>
       <div class="time-table" id="time-table"></div>
     </div>
 
     <div class="settings-area" id="settings-panel">
-      <div id="settings-main" class="settings-subpanel">
-        <div class="header-row" onclick="closeSettings()">
-           <span class="back-arrow">&lt;</span> <span data-translate="settings_back_to_main">メイン画面</span>
-        </div>
+      <div id="settings-main">
+        <div class="header-row" onclick="closeSettings()"><span class="back-arrow">&lt;</span> <span id="settings-back-to-main-text"></span></div>
         <div class="section">
-          <h3 data-translate="settings_main_title">設定</h3>
+          <h3 id="settings-main-title"></h3>
           <div class="setting-buttons">
-            <button data-translate="btn_display" onclick="showPanel('display-settings')">表示</button>
-            <button data-translate="btn_stop" onclick="showPanel('bus-stop-settings')">バス停変更</button>
-            <button data-translate="btn_lang" onclick="showPanel('language-settings')">言語</button>
-            <button data-translate="btn_terms" onclick="alert('利用規約がクリックされました')">利用規約</button>
+            <button id="settings-btn-display" onclick="showSettingsPanel('display-settings')"></button>
+            <button id="settings-btn-stop" onclick="showSettingsPanel('bus-stop-settings')"></button>
+            <button id="settings-btn-lang" onclick="showSettingsPanel('language-settings')"></button>
+            <button id="settings-btn-terms" onclick="showSettingsPanel('terms-settings')"></button>
           </div>
         </div>
       </div>
 
-      <div id="display-settings" class="settings-subpanel hidden">
-        <div class="header-row" onclick="showPanel('settings-main')">
-          <span class="back-arrow">&lt;</span> <span data-translate="settings_back">設定</span>
-        </div>
+      <div id="display-settings" class="hidden">
+        <div class="header-row" onclick="showSettingsPanel('settings-main')"><span class="back-arrow">&lt;</span> <span id="display-settings-back-text"></span></div>
         <div class="section">
-          <h3 data-translate="display_title">表示</h3>
-          <div class="color-row"><span data-translate="color_base">ベース</span><input type="color" onchange="changeColor('base', this.value)"></div>
-          <div class="color-row"><span data-translate="color_title">タイトル</span><input type="color" onchange="changeColor('title', this.value)"></div>
-          <div class="color-row"><span data-translate="color_time">現在時刻</span><input type="color" onchange="changeColor('time', this.value)"></div>
-          <div class="color-row"><span data-translate="color_route">路線名</span><input type="color" onchange="changeColor('route', this.value)"></div>
-          <div class="color-row"><span data-translate="color_scheduled">定刻時間</span><input type="color" onchange="changeColor('scheduled', this.value)"></div>
-          <div class="color-row"><span data-translate="color_predicted">予測時間</span><input type="color" onchange="changeColor('predicted', this.value)"></div>
+          <h3 id="display-settings-title"></h3>
+          <div class="color-row"><span id="color-label-base"></span><input type="color" id="color-picker-base" onchange="changeColor('base', this.value)"></div>
+          <div class="color-row"><span id="color-label-title"></span><input type="color" id="color-picker-title" onchange="changeColor('title', this.value)"></div>
+          <div class="color-row"><span id="color-label-time"></span><input type="color" id="color-picker-time" onchange="changeColor('time', this.value)"></div>
+          <div class="color-row"><span id="color-label-route"></span><input type="color" id="color-picker-route" onchange="changeColor('route', this.value)"></div>
+          <div class="color-row"><span id="color-label-scheduled"></span><input type="color" id="color-picker-scheduled" onchange="changeColor('scheduled', this.value)"></div>
+          <div class="color-row"><span id="color-label-predicted"></span><input type="color" id="color-picker-predicted" onchange="changeColor('predicted', this.value)"></div>
         </div>
       </div>
 
-      <div id="language-settings" class="settings-subpanel hidden">
-        <div class="header-row" onclick="showPanel('settings-main')">
-          <span class="back-arrow">&lt;</span> <span data-translate="settings_back">設定</span>
-        </div>
+      <div id="language-settings" class="hidden">
+        <div class="header-row" onclick="showSettingsPanel('settings-main')"><span class="back-arrow">&lt;</span> <span id="lang-settings-back-text"></span></div>
         <div class="section">
-          <h3 data-translate="lang_title">言語</h3>
+          <h3 id="lang-settings-title"></h3>
           <div class="language-buttons">
             <button class="active" onclick="selectLanguage(this)" data-lang="ja">日本語</button>
             <button onclick="selectLanguage(this)" data-lang="en">English</button>
@@ -222,126 +286,177 @@
         </div>
       </div>
       
-      <div id="bus-stop-settings" class="settings-subpanel hidden">
-        <div class="header-row" onclick="showPanel('settings-main')">
-          <span class="back-arrow">&lt;</span> <span data-translate="settings_back">設定</span>
-        </div>
+      <div id="bus-stop-settings" class="hidden">
+        <div class="header-row" onclick="showSettingsPanel('settings-main')"><span class="back-arrow">&lt;</span> <span id="bus-stop-settings-back-text"></span></div>
         <div class="section">
-          <h3 data-translate="bus_stop_title">バス停変更</h3>
+          <h3 id="bus-stop-settings-title"></h3>
           <div class="route-selection-buttons">
             <button id="route-btn-mukaihara" class="active" onclick="selectRoute(this, 'mukaihara')"></button>
             <button id="route-btn-reitaku" onclick="selectRoute(this, 'reitaku')"></button>
           </div>
         </div>
       </div>
+
+      <div id="terms-settings" class="hidden">
+          <div class="header-row" onclick="showSettingsPanel('settings-main')"><span class="back-arrow">&lt;</span><span id="terms-settings-back-text"></span></div>
+          <div class="section scrollable">
+              <h3 id="terms-settings-title"></h3>
+              <p id="terms-text-1"></p>
+              <p id="terms-text-2"></p>
+          </div>
+      </div>
+
     </div>
   </div>
 
-  <script>
+<script>
     let currentRouteId = 'mukaihara';
     const routeData = {
         mukaihara: { ja: "向原 ➝ 南柏駅東口", en: "Mukaihara → Minami-Kashiwa Sta. EAST", 'zh-CN': "向原 → 南柏站东口", 'zh-TW': "向原 → 南柏站東口", ko: "무카이하라 → 미나미카시와역 동쪽 출구" },
         reitaku: { ja: "麗澤大学前 ➝ 南柏駅東口", en: "Reitaku Daigaku-mae → Minami-Kashiwa Sta. EAST", 'zh-CN': "丽泽大学前 → 南柏站东口", 'zh-TW': "麗澤大學前 → 南柏站東口", ko: "레이타쿠대학 앞 → 미나미카시와역 동쪽 출구" }
     };
     const translations = {
-        ja: { title: "バス運行状況", scheduled: "定刻", predicted: "予測", departure: "発", settings_back_to_main: "メイン画面", settings_main_title: "設定", btn_display: "表示", btn_stop: "バス停変更", btn_lang: "言語", btn_terms: "利用規約", settings_back: "設定", display_title: "表示", lang_title: "言語", bus_stop_title: "バス停変更", color_base: "ベース", color_title: "タイトル", color_time: "現在時刻", color_route: "路線名", color_scheduled: "定刻時間", color_predicted: "予測時間" },
-        en: { title: "Bus operation status", scheduled: "Schedule", predicted: "Predicted", departure: "", settings_back_to_main: "Main screen", settings_main_title: "Setting", btn_display: "Display", btn_stop: "Bus stop change", btn_lang: "Language", btn_terms: "Terms of service", settings_back: "Setting", display_title: "Display", lang_title: "Language", bus_stop_title: "Bus stop change", color_base: "Base", color_title: "Title", color_time: "Current time", color_route: "Route name", color_scheduled: "Scheduled time", color_predicted: "Predicted time" },
-        'zh-CN': { title: "公交运营状况", scheduled: "预定", predicted: "预计", departure: "出发", settings_back_to_main: "主屏幕", settings_main_title: "设置", btn_display: "显示", btn_stop: "公交车站变更", btn_lang: "语言", btn_terms: "服务条款", settings_back: "设置", display_title: "显示", lang_title: "语言", bus_stop_title: "公交车站变更", color_base: "基础", color_title: "标题", color_time: "当前时间", color_route: "路线名称", color_scheduled: "预定时间", color_predicted: "预计时间" },
-        'zh-TW': { title: "公車營運狀況", scheduled: "預定", predicted: "預測", departure: "出發", settings_back_to_main: "主螢幕", settings_main_title: "設定", btn_display: "顯示", btn_stop: "公車站變更", btn_lang: "語言", btn_terms: "服務條款", settings_back: "設定", display_title: "顯示", lang_title: "語言", bus_stop_title: "公車站變更", color_base: "基礎", color_title: "標題", color_time: "當前時間", color_route: "路線名稱", color_scheduled: "預定時間", color_predicted: "預測時間" },
-        ko: { title: "버스 운행 현황", scheduled: "정시", predicted: "예측", departure: "출발", settings_back_to_main: "메인 화면", settings_main_title: "설정", btn_display: "표시", btn_stop: "버스 정류장 변경", btn_lang: "언어", btn_terms: "이용약관", settings_back: "설정", display_title: "표시", lang_title: "언어", bus_stop_title: "버스 정류장 변경", color_base: "베이스", color_title: "제목", color_time: "현재 시간", color_route: "노선명", color_scheduled: "정시 시간", color_predicted: "예측 시간" }
+        ja: { title: "バス運行状況", scheduled: "定刻", predicted: "予測", departure: "発", settings_back_to_main: "メイン画面", settings_main_title: "設定", btn_display: "表示", btn_stop: "バス停変更", btn_lang: "言語", btn_terms: "利用規約", settings_back: "設定", display_title: "表示", lang_title: "言語", bus_stop_title: "バス停変更", terms_title: "利用規約", color_base: "ベース", color_title: "タイトル", color_time: "現在時刻", color_route: "路線名", color_scheduled: "定刻時間", color_predicted: "予測時間",
+            terms_text_1: "運行情報表示板は東武バス及び株式会社ナビタイムジャパンが提供する「バス接近情報」からスクレイピングしたものです。ただし、これはプロトタイプであるため、スクレイピングを行っておりません。",
+            terms_text_2: "詳しくは東武バス「<a href=\"https://transfer-cloud.navitime.biz/tobubus/terms-of-use\" target=\"_blank\" rel=\"noopener noreferrer\">ご利用にあたって（免責について等）</a>」をご覧ください。"
+        },
+        en: { title: "Bus operation status", scheduled: "Schedule", predicted: "Predicted", departure: "", settings_back_to_main: "Main screen", settings_main_title: "Setting", btn_display: "Display", btn_stop: "Bus stop change", btn_lang: "Language", btn_terms: "Terms of service", settings_back: "Setting", display_title: "Display", lang_title: "Language", bus_stop_title: "Bus stop change", terms_title: "Terms of service", color_base: "Base", color_title: "Title", color_time: "Current time", color_route: "Route name", color_scheduled: "Scheduled time", color_predicted: "Predicted time",
+            terms_text_1: "The Bus Operation Status board is scraped from the 'Bus Proximity Information' provided by Tobu Bus and NAVITIME JAPAN CORPORATION. However, as this is a prototype, it does not actually perform scraping.",
+            terms_text_2: "For details, please see the Tobu Bus '<a href=\"https://transfer-cloud.navitime.biz/tobubus/terms-of-use\" target=\"_blank\" rel=\"noopener noreferrer\">Terms of Use (Disclaimer, etc.)</a>'."
+        },
+        'zh-CN': { title: "公交运营状况", scheduled: "预定", predicted: "预计", departure: "出发", settings_back_to_main: "主屏幕", settings_main_title: "设置", btn_display: "显示", btn_stop: "公交车站变更", btn_lang: "语言", btn_terms: "服务条款", settings_back: "设置", display_title: "显示", lang_title: "语言", bus_stop_title: "公交车站变更", terms_title: "服务条款", color_base: "基础", color_title: "标题", color_time: "当前时间", color_route: "路线名称", color_scheduled: "预定时间", color_predicted: "预计时间",
+            terms_text_1: "此公交车运行信息显示板的内容是从东武巴士以及NAVITIME JAPAN公司提供的“公交车接近信息”中抓取的。但由于这只是一个原型，因此并未实际进行抓取。",
+            terms_text_2: "详情请参阅东武巴士的“<a href=\"https://transfer-cloud.navitime.biz/tobubus/terms-of-use\" target=\"_blank\" rel=\"noopener noreferrer\">使用条款（免责声明等）</a>”。"
+        },
+        'zh-TW': { title: "公車營運狀況", scheduled: "預定", predicted: "預測", departure: "出發", settings_back_to_main: "主螢幕", settings_main_title: "設定", btn_display: "顯示", btn_stop: "公車站變更", btn_lang: "語言", btn_terms: "服務條款", settings_back: "設定", display_title: "顯示", lang_title: "語言", bus_stop_title: "公車站變更", terms_title: "服務條款", color_base: "基礎", color_title: "標題", color_time: "當前時間", color_route: "路線名稱", color_scheduled: "預定時間", color_predicted: "預測時間",
+            terms_text_1: "此公車營運狀況顯示板的內容是從東武巴士以及NAVITIME JAPAN公司提供的「公車接近資訊」中擷取的。但由於這只是一個原型，因此並未實際進行擷取。",
+            terms_text_2: "詳情請參閱東武巴士的「<a href=\"https://transfer-cloud.navitime.biz/tobubus/terms-of-use\" target=\"_blank\" rel=\"noopener noreferrer\">使用條款（免責聲明等）</a>」。"
+        },
+        ko: { title: "버스 운행 현황", scheduled: "정시", predicted: "예측", departure: "출발", settings_back_to_main: "메인 화면", settings_main_title: "설정", btn_display: "표시", btn_stop: "버스 정류장 변경", btn_lang: "언어", btn_terms: "이용약관", settings_back: "설정", display_title: "표시", lang_title: "언어", bus_stop_title: "버스 정류장 변경", terms_title: "이용약관", color_base: "베이스", color_title: "제목", color_time: "현재 시간", color_route: "노선명", color_scheduled: "정시 시간", color_predicted: "예측 시간",
+            terms_text_1: "버스 운행 정보 게시판은 토부 버스 및 주식회사 NAVITIME JAPAN이 제공하는 '버스 접근 정보'에서 스크레이핑한 것입니다. 단, 이것은 프로토타입이므로 실제 스크레이핑은 하지 않습니다.",
+            terms_text_2: "자세한 내용은 토부 버스의 '<a href=\"https://transfer-cloud.navitime.biz/tobubus/terms-of-use\" target=\"_blank\" rel=\"noopener noreferrer\">이용 안내 (면책 사항 등)</a>'를 확인해 주십시오."
+        }
     };
-    const times = [ { scheduled: "16:43", predicted: "16:46" }, { scheduled: "16:51", predicted: "16:55" }, { scheduled: "16:57", predicted: "16:59" } ];
 
-    const UIElements = {
+    const DOMElements = {
+        welcomeScreen: document.getElementById('welcome-screen'),
+        mainContainer: document.getElementById('main-container'),
         busStatus: document.getElementById('bus-status'),
         settingsPanel: document.getElementById('settings-panel'),
-        settingsSubpanels: document.querySelectorAll('.settings-subpanel'),
+        timeTable: document.getElementById('time-table'),
+        titleText: document.getElementById('title-text'),
         routeName: document.getElementById('route-name'),
-        titleText: document.querySelector('[data-translate="title"]'),
-        timeTable: document.getElementById('time-table')
+        currentTime: document.getElementById('current-time'),
+        settingsPanels: document.querySelectorAll('.settings-area > div')
     };
 
-    function createTimeTable(lang) {
-        const t = translations[lang];
-        UIElements.timeTable.innerHTML = times.map(entry => `
-            <div class="time-row">
-                <div><span class="label-base">${t.scheduled}</span> <span class="time-large">${entry.scheduled}</span></div>
-                <div><span class="label-base">${t.predicted}</span> <span class="time-large">${entry.predicted}</span> <span class="label-base">${t.departure}</span></div>
-            </div>
-        `).join('');
-    }
+    const times = [ { scheduled: "16:43", predicted: "16:46" }, { scheduled: "16:51", predicted: "16:55" }, { scheduled: "16:57", predicted: "16:59" }];
+    times.forEach(entry => {
+        const row = document.createElement("div");
+        row.className = "time-row";
+        row.innerHTML = `<div><span class="label-base label-scheduled"></span> <span class="time-large scheduled-time">${entry.scheduled}</span></div>` +
+                      `<div><span class="label-base label-predicted"></span> <span class="time-large predicted-time">${entry.predicted}</span> <span class="label-base label-departure"></span></div>`;
+        DOMElements.timeTable.appendChild(row);
+    });
 
     function startApp(lang) {
-        document.getElementById('welcome-screen').style.display = 'none';
-        document.getElementById('main-container').style.display = 'flex';
-        selectLanguage(document.querySelector(`.language-buttons button[data-lang='${lang}']`));
+        DOMElements.welcomeScreen.style.display = 'none';
+        DOMElements.mainContainer.style.display = 'flex';
+        const targetButton = document.querySelector(`#language-settings button[data-lang='${lang}']`);
+        if (targetButton) selectLanguage(targetButton);
+        else updateUI(lang);
     }
 
     function openSettings() {
-      UIElements.busStatus.classList.add('settings-active');
-      UIElements.settingsPanel.style.display = "flex";
-      showPanel('settings-main');
-      updateText(document.documentElement.lang || 'ja');
+        DOMElements.busStatus.classList.add('settings-active');
+        DOMElements.settingsPanel.style.display = "flex";
+        showSettingsPanel('settings-main');
+        updateUI(document.documentElement.lang);
     }
 
     function closeSettings() {
-      UIElements.busStatus.classList.remove('settings-active');
-      UIElements.settingsPanel.style.display = "none";
-      updateText(document.documentElement.lang || 'ja');
+        DOMElements.busStatus.classList.remove('settings-active');
+        DOMElements.settingsPanel.style.display = "none";
+        updateUI(document.documentElement.lang);
+    }
+    
+    function showSettingsPanel(panelIdToShow) {
+        DOMElements.settingsPanels.forEach(panel => panel.classList.add('hidden'));
+        document.getElementById(panelIdToShow).classList.remove('hidden');
+        if (panelIdToShow === 'display-settings') initializeColorPickers();
+    }
+    
+    function rgbToHex(rgb) {
+        if (rgb.startsWith('#')) return rgb;
+        const [r, g, b] = rgb.match(/\d+/g).map(Number);
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
 
-    function showPanel(panelId) {
-        UIElements.settingsSubpanels.forEach(panel => {
-            panel.classList.toggle('hidden', panel.id !== panelId);
-        });
-    }
-
-    function changeColor(type, color) {
-        const root = document.documentElement;
-        switch (type) {
-            case "base": root.style.setProperty('--label-color', color); break;
-            case "title": UIElements.titleText.style.color = color; break;
-            case "time": document.getElementById('current-time').style.color = color; break;
-            case "route": UIElements.routeName.style.color = color; break;
-            case "scheduled": root.style.setProperty('--scheduled-time-color', color); break;
-            case "predicted": root.style.setProperty('--predicted-time-color', color); break;
+    function initializeColorPickers() {
+        const colorMap = { base: '.label-base', title: '#title-text', time: '#current-time', route: '#route-name', scheduled: '.scheduled-time', predicted: '.predicted-time' };
+        for (const type in colorMap) {
+            const picker = document.getElementById(`color-picker-${type}`);
+            const element = document.querySelector(colorMap[type]);
+            if (picker && element) picker.value = rgbToHex(window.getComputedStyle(element).color);
         }
     }
     
+    function changeColor(type, color) {
+        const selectorMap = { base: ".label-base", title: "#title-text", time: "#current-time", route: "#route-name", scheduled: ".scheduled-time", predicted: ".predicted-time" };
+        document.querySelectorAll(selectorMap[type]).forEach(e => e.style.color = color);
+    }
+
     function selectLanguage(selectedButton) {
-        document.querySelectorAll(".language-buttons button").forEach(button => button.classList.remove("active"));
+        document.querySelectorAll(".language-buttons button").forEach(b => b.classList.remove("active"));
         selectedButton.classList.add("active");
-        updateText(selectedButton.dataset.lang);
+        updateUI(selectedButton.dataset.lang);
     }
     
     function selectRoute(selectedButton, routeId) {
-        document.querySelectorAll(".route-selection-buttons button").forEach(button => button.classList.remove("active"));
+        document.querySelectorAll(".route-selection-buttons button").forEach(b => b.classList.remove("active"));
         selectedButton.classList.add("active");
         currentRouteId = routeId;
-        updateText(document.documentElement.lang || 'ja');
+        updateUI(document.documentElement.lang);
     }
-
-    function updateText(lang) {
-        document.documentElement.lang = lang;
+    
+    function updateUI(lang) {
         const t = translations[lang];
-        
-        document.querySelectorAll('[data-translate]').forEach(el => {
-            el.innerText = t[el.dataset.translate];
-        });
+        document.documentElement.lang = lang;
 
-        UIElements.routeName.innerText = routeData[currentRouteId][lang];
-        document.getElementById('route-btn-mukaihara').innerText = routeData.mukaihara[lang];
-        document.getElementById('route-btn-reitaku').innerText = routeData.reitaku[lang];
+        const textContentMap = {
+            'title-text': t.title, 'route-name': routeData[currentRouteId][lang], 'settings-back-to-main-text': t.settings_back_to_main, 'settings-main-title': t.settings_main_title,
+            'settings-btn-display': t.btn_display, 'settings-btn-stop': t.btn_stop, 'settings-btn-lang': t.btn_lang, 'settings-btn-terms': t.btn_terms, 'display-settings-back-text': t.settings_back,
+            'display-settings-title': t.display_title, 'color-label-base': t.color_base, 'color-label-title': t.color_title, 'color-label-time': t.color_time, 'color-label-route': t.color_route,
+            'color-label-scheduled': t.color_scheduled, 'color-label-predicted': t.color_predicted, 'lang-settings-back-text': t.settings_back, 'lang-settings-title': t.lang_title,
+            'bus-stop-settings-back-text': t.settings_back, 'bus-stop-settings-title': t.bus_stop_title, 'route-btn-mukaihara': routeData.mukaihara[lang], 'route-btn-reitaku': routeData.reitaku[lang],
+            'terms-settings-title': t.terms_title, 'terms-settings-back-text': t.settings_back
+        };
+        for (const id in textContentMap) document.getElementById(id).innerText = textContentMap[id];
         
-        createTimeTable(lang);
+        document.querySelectorAll('.label-scheduled').forEach(el => el.innerText = t.scheduled);
+        document.querySelectorAll('.label-predicted').forEach(el => el.innerText = t.predicted);
+        document.querySelectorAll('.label-departure').forEach(el => el.innerText = t.departure);
+        
+        document.getElementById('terms-text-1').innerHTML = t.terms_text_1;
+        document.getElementById('terms-text-2').innerHTML = t.terms_text_2;
 
-        const isSettingsActive = UIElements.busStatus.classList.contains('settings-active');
-        UIElements.titleText.style.fontSize = (isSettingsActive && lang === 'en') ? '3.5vw' : '';
-        UIElements.routeName.style.fontSize = (isSettingsActive && currentRouteId === 'reitaku' && lang === 'en') ? '3.0vw' :
-                                             (isSettingsActive && currentRouteId === 'reitaku' && lang === 'ko') ? '3.4vw' : '';
+        DOMElements.titleText.style.fontSize = '';
+        DOMElements.routeName.style.fontSize = '';
+        const isSettingsActive = DOMElements.busStatus.classList.contains('settings-active');
+
+        if (currentRouteId === 'reitaku' && lang === 'en') {
+            DOMElements.routeName.style.fontSize = isSettingsActive ? '3.0vw' : '3.8vw';
+        } else if (currentRouteId === 'reitaku' && lang === 'ko' && isSettingsActive) {
+            DOMElements.routeName.style.fontSize = '3.4vw';
+        }
+        if (isSettingsActive && lang === 'en') {
+            DOMElements.titleText.style.fontSize = '3.5vw';
+        }
     }
-
-    createTimeTable('ja');
-  </script>
+    
+    // Initial Load
+    DOMElements.currentTime.innerText = '16:40';
+    updateUI('ja');
+</script>
 </body>
 </html>
